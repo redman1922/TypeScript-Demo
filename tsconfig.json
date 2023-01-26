@@ -1,9 +1,21 @@
+// {
+//   "compilerOptions": {
+//     "outDir": "public/scripts",
+//     "target": "ES6",
+//     "moduleResolution": "node",
+//     "allowJs": true
+//   },
+//   "files": ["src/index.ts"],
+//   "include": ["src"]
+// }
+
 {
   "compilerOptions": {
     "outDir": "public/scripts",
     "target": "ES6",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "allowJs": true
   },
-  "files": ["src/index.ts"],
-  "include": ["src"]
+  // "files": ["src/index.ts"],
+  "include": ["src/**/*"]
 }

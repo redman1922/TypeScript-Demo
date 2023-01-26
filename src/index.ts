@@ -5,7 +5,7 @@ import {
 } from "./search-results.js";
 import { getFavoritesAmount, renderUserBlock } from "./user.js";
 // import { renderToast } from "./lib.js";
-
+declare const window: Window;
 if (typeof window !== undefined && window && window.addEventListener) {
   window.addEventListener("DOMContentLoaded", () => {
     const today = new Date();
@@ -23,7 +23,7 @@ if (typeof window !== undefined && window && window.addEventListener) {
     renderUserBlock("Anton Pryakhin", "/img/avatar.png", getFavoritesAmount());
     renderSearchFormBlock(dateIn, dateOut);
     renderSearchStubBlock();
-    renderSearchResultsBlock();
+    // renderSearchResultsBlock();
 
     // renderToast(
     //   {

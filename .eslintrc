@@ -9,5 +9,8 @@
   ],
   "rules": {
     "quotes": ["error", "double"]
+  },
+  "globals": {
+    "window": true
   }
 }
