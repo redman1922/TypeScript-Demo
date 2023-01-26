@@ -13,15 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dr1pryaha/GB_TypeScript_01.git"
+    "url": "git+https://github.com/redman1922/TypeScript-Demo.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dr1pryaha/GB_TypeScript_01/issues"
+    "url": "https://github.com/redman1922/TypeScript-Demo/issues"
   },
-  "homepage": "https://github.com/dr1pryaha/GB_TypeScript_01#readme",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.48.1",
     "@typescript-eslint/parser": "^5.48.1",
