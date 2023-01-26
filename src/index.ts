@@ -1,7 +1,10 @@
 import { renderSearchFormBlock } from "./search-form.js";
-import { renderSearchStubBlock } from "./search-results.js";
-import { renderUserBlock } from "./user.js";
-import { renderToast } from "./lib.js";
+import {
+  renderSearchResultsBlock,
+  renderSearchStubBlock,
+} from "./search-results.js";
+import { getFavoritesAmount, renderUserBlock } from "./user.js";
+// import { renderToast } from "./lib.js";
 
 if (typeof window !== undefined && window && window.addEventListener) {
   window.addEventListener("DOMContentLoaded", () => {
@@ -17,21 +20,23 @@ if (typeof window !== undefined && window && window.addEventListener) {
       today.getDate() + 3
     );
 
-    renderUserBlock("Anton Pryakhin", "/img/avatar.png", 3);
+    renderUserBlock("Anton Pryakhin", "/img/avatar.png", getFavoritesAmount());
     renderSearchFormBlock(dateIn, dateOut);
     renderSearchStubBlock();
-    renderToast(
-      {
-        text: "Это пример уведомления. Используйте его при необходимости",
-        type: "success",
-      },
-      {
-        name: "Понял",
-        handler: () => {
-          console.log("Уведомление закрыто");
-        },
-      }
-    );
+    renderSearchResultsBlock();
+
+    // renderToast(
+    //   {
+    //     text: "Это пример уведомления. Используйте его при необходимости",
+    //     type: "success",
+    //   },
+    //   {
+    //     name: "Понял",
+    //     handler: () => {
+    //       console.log("Уведомление закрыто");
+    //     },
+    //   }
+    // );
   });
 } else {
   console.log("This is not browser!");

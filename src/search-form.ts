@@ -1,4 +1,5 @@
 import { renderBlock } from "./lib.js";
+import { renderSearchResultsBlock } from "./search-results.js";
 
 interface SearchFormData {
   cityForm: string;
@@ -31,6 +32,7 @@ export function renderSearchFormBlock(dateIn: Date, dateOut: Date) {
   }
 
   function onSearchClick() {
+    renderSearchResultsBlock();
     const cityForm = (document.getElementById("city") as HTMLInputElement)
       .value;
     const dateInForm = (

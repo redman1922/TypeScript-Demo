@@ -1,4 +1,10 @@
 import { renderBlock } from "./lib.js";
+import { FavoritePlace, Place } from "./Place.js";
+import {
+  getFavoritesAmount,
+  getFavoritesItems,
+  renderUserBlock,
+} from "./user.js";
 
 export function renderSearchStubBlock() {
   renderBlock(
@@ -24,7 +30,91 @@ export function renderEmptyOrErrorSearchBlock(reasonMessage) {
   );
 }
 
-export function renderSearchResultsBlock() {
+export function isFavoritePlaceExist(favoritePlace: FavoritePlace) {
+  return getFavoritesItems().find((place) => {
+    return place.id === favoritePlace.id;
+  });
+}
+
+function toggleFavoriteItem(place: Place) {
+  const favoritePlace: FavoritePlace = {
+    id: place.id,
+    name: place.name,
+    image: place.image,
+  };
+  let favoriteItems = getFavoritesItems();
+  if (isFavoritePlaceExist(favoritePlace)) {
+    favoriteItems = favoriteItems.filter(
+      (place) => place.id !== favoritePlace.id
+    );
+  } else {
+    favoriteItems.push(favoritePlace);
+  }
+
+  localStorage.setItem("favoriteItems", JSON.stringify(favoriteItems));
+}
+
+const places = [];
+
+async function getData(id: string) {
+  return fetch(`http://localhost:3030/places/${id}`)
+    .then<Place>((response) => {
+      // response.text();
+      // .then((response) => {
+      //   // console.log(response);
+
+      //   // response.text();
+      //   if (response.status === 400) {
+      //     renderToast(
+      //       {
+      //         text: `${response.statusText}. Error ${response.status}`,
+      //         type: "error",
+      //       },
+      //       {
+      //         name: "Понял",
+      //         handler: () => {
+      //           console.log("Уведомление закрыто");
+      //         },
+      //       }
+      //     );
+      //   }
+      return response.json(); // Error!
+    })
+    .then((data) => {
+      places.push(data);
+      return `<div class="result-container">
+      <div class="result-img-container">
+      ${
+        !isFavoritePlaceExist(data)
+          ? `<div id="${data.id}" class="favorites"></div>`
+          : `<div id="${data.id}" class="favorites active"></div>`
+      }
+        <img class="result-img" src=${data.image} alt="">
+      </div>	
+      <div class="result-info">
+        <div class="result-info--header">
+          <p>${data.name}</p>
+          <p class="price">${data.price}</p>
+        </div>
+        <div class="result-info--map"><i class="map-icon"></i> ${
+          data.remoteness
+        } км от вас</div>
+        <div class="result-info--descr">${data.description}</div>
+        <div class="result-info--footer">
+          <div>
+            <button>Забронировать</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    });
+  // return resultAPI;
+}
+
+export async function renderSearchResultsBlock() {
+  const place1 = await getData("1");
+  const place2 = await getData("2");
+
   renderBlock(
     "search-results-block",
     `
@@ -41,48 +131,23 @@ export function renderSearchResultsBlock() {
     </div>
     <ul class="results-list">
       <li class="result">
-        <div class="result-container">
-          <div class="result-img-container">
-            <div class="favorites active"></div>
-            <img class="result-img" src="./img/result-1.png" alt="">
-          </div>	
-          <div class="result-info">
-            <div class="result-info--header">
-              <p>YARD Residence Apart-hotel</p>
-              <p class="price">13000&#8381;</p>
-            </div>
-            <div class="result-info--map"><i class="map-icon"></i> 2.5км от вас</div>
-            <div class="result-info--descr">Комфортный апарт-отель в самом сердце Санкт-Петербрга. К услугам гостей номера с видом на город и бесплатный Wi-Fi.</div>
-            <div class="result-info--footer">
-              <div>
-                <button>Забронировать</button>
-              </div>
-            </div>
-          </div>
-        </div>
+        ${place1}
       </li>
       <li class="result">
-        <div class="result-container">
-          <div class="result-img-container">
-            <div class="favorites"></div>
-            <img class="result-img" src="./img/result-2.png" alt="">
-          </div>	
-          <div class="result-info">
-            <div class="result-info--header">
-              <p>Akyan St.Petersburg</p>
-              <p class="price">13000&#8381;</p>
-            </div>
-            <div class="result-info--map"><i class="map-icon"></i> 1.1км от вас</div>
-            <div class="result-info--descr">Отель Akyan St-Petersburg с бесплатным Wi-Fi на всей территории расположен в историческом здании Санкт-Петербурга.</div>
-            <div class="result-info--footer">
-              <div>
-                <button>Забронировать</button>
-              </div>
-            </div>
-          </div>
-        </div>
+      ${place2}
       </li>
     </ul>
     `
   );
+  places.forEach((item) => {
+    document.getElementById(`${item.id}`).addEventListener("click", (event) => {
+      toggleFavoriteItem(item);
+      renderUserBlock(
+        "Anton Pryakhin",
+        "/img/avatar.png",
+        getFavoritesAmount()
+      );
+      (event.currentTarget as HTMLElement).classList.toggle("active");
+    });
+  });
 }
