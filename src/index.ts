@@ -1,6 +1,6 @@
 import { renderSearchFormBlock } from "./search-form.js";
 import {
-  renderSearchResultsBlock,
+  // renderSearchResultsBlock,
   renderSearchStubBlock,
 } from "./search-results.js";
 import { getFavoritesAmount, renderUserBlock } from "./user.js";
