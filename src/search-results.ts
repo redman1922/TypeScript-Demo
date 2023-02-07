@@ -48,7 +48,7 @@ export function renderSearchStubBlock() {
   );
 }
 
-export function renderEmptyOrErrorSearchBlock(reasonMessage) {
+export function renderEmptyOrErrorSearchBlock(reasonMessage: string) {
   renderBlock(
     "search-results-block",
     `
@@ -93,7 +93,7 @@ function toggleFavoriteItem(place: Place) {
 //   };
 // }
 
-const places = [];
+let places: Place[] = [];
 let selectValue = "cheap";
 
 const homyProvider = new HomyProvider();
@@ -116,18 +116,25 @@ function getDataFromSdk() {
   });
 }
 
+function clearPlaces() {
+  return (places = []);
+}
+
 export async function fetchPlaces() {
   if (
     (document.getElementById("flat") as HTMLInputElement).checked &&
     (document.getElementById("homy") as HTMLInputElement).checked
   ) {
+    clearPlaces();
     await getDataFrom3030("1");
     await getDataFrom3030("2");
     await getDataFromSdk();
   } else if ((document.getElementById("homy") as HTMLInputElement).checked) {
+    clearPlaces();
     await getDataFrom3030("1");
     await getDataFrom3030("2");
   } else if ((document.getElementById("flat") as HTMLInputElement).checked) {
+    clearPlaces();
     await getDataFromSdk();
   }
 }
@@ -164,18 +171,20 @@ export async function renderSearchResultsBlock() {
     `
   );
   places.forEach((item) => {
-    document.getElementById(`${item.id}`).addEventListener("click", (event) => {
-      toggleFavoriteItem(item);
-      renderUserBlock(
-        "Anton Pryakhin",
-        "/img/avatar.png",
-        getFavoritesAmount()
-      );
-      (event.currentTarget as HTMLElement).classList.toggle("active");
-    });
+    document
+      .getElementById(`${item.id}`)!
+      .addEventListener("click", (event) => {
+        toggleFavoriteItem(item);
+        renderUserBlock(
+          "Anton Pryakhin",
+          "/img/avatar.png",
+          getFavoritesAmount()
+        );
+        (event.currentTarget as HTMLElement).classList.toggle("active");
+      });
   });
 
-  document.getElementById("select").addEventListener("change", (event) => {
+  document.getElementById("select")!.addEventListener("change", (event) => {
     selectValue = (event.currentTarget as HTMLSelectElement).value;
 
     if (selectValue === "cheap") {

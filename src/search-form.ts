@@ -8,16 +8,19 @@ interface SearchFormData {
   priceForm: number;
 }
 
-function formatDate(date) {
+function formatDate(date: Date) {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
-  if (month < 10) {
+  if (month < 10 && day < 10) {
+    return `${year}-0${month}-0${day}`;
+  } else if (month < 10) {
     return `${year}-0${month}-${day}`;
-  } else {
-    return `${year}-${month}-${day}`;
+  } else if (day < 10) {
+    return `${year}-${month}-0${day}`;
   }
+  return `${year}-${month}-${day}`;
 }
 
 function search(searchFormData: SearchFormData) {
@@ -25,7 +28,6 @@ function search(searchFormData: SearchFormData) {
 }
 
 async function onSearchClick() {
-  console.log("sadfsd");
   await fetchPlaces();
   renderSearchResultsBlock();
   const cityForm = (document.getElementById("city") as HTMLInputElement).value;
@@ -94,5 +96,7 @@ export function renderSearchFormBlock(dateIn: Date, dateOut: Date) {
     </form>
     `
   );
-  document.getElementById("searchBtn").addEventListener("click", onSearchClick);
+  document
+    .getElementById("searchBtn")!
+    .addEventListener("click", onSearchClick);
 }

@@ -18,6 +18,6 @@ export interface SearchParams {
 export class FlatRentSdk {
   constructor();
   get(id: string): Promise<Flat>;
-  search(parameters: SearchParams);
+  search(parameters: SearchParams): void;
   book(flatId: number, checkInDate: Date, checkOutDate: Date): number;
 }

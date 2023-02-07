@@ -38,7 +38,7 @@ export function renderUserBlock(
   localStorage.setItem("user", JSON.stringify(user));
 
   function getUserData() {
-    const store = JSON.parse(localStorage.getItem("user")) as unknown;
+    const store = JSON.parse(localStorage.getItem("user") || "{}");
     if (
       typeof store === "object" &&
       "username" in store &&

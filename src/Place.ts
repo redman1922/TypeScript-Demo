@@ -9,7 +9,7 @@ export interface Place {
 }
 
 export interface FavoritePlace {
-  id: string;
-  image: string;
-  name: string;
+  id: string | null;
+  image: string | null;
+  name: string | null;
 }

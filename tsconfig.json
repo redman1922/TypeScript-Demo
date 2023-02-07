@@ -14,7 +14,13 @@
     "outDir": "public/scripts",
     "target": "ES6",
     "moduleResolution": "node",
-    "allowJs": true
+    "allowJs": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": true
   },
   // "files": ["src/index.ts"],
   "include": ["src/**/*"]
